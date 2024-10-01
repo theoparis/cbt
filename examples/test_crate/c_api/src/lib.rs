@@ -20,8 +20,8 @@ pub extern "C" fn my_struct_free(obj: *mut MyStruct) {
 #[no_mangle]
 pub extern "C" fn add(a: i32, b: i32) -> i32 {
 	use test_crate::add;
-	let a = unsafe { std::mem::transmute::<i32, _>(a) };
-	let b = unsafe { std::mem::transmute::<i32, _>(b) };
+	let a = unsafe { core::mem::transmute::<i32, _>(a) };
+	let b = unsafe { core::mem::transmute::<i32, _>(b) };
 	let result = add(a, b);
 	unsafe { std::mem::transmute::<_, i32>(result) }
 }
@@ -32,7 +32,7 @@ pub extern "C" fn greet(
 ) -> *mut core::ffi::c_char {
 	use test_crate::greet;
 	let name = unsafe {
-		std::ffi::CStr::from_ptr(name)
+		core::ffi::CStr::from_ptr(name)
 			.to_string_lossy()
 			.into_owned()
 	};

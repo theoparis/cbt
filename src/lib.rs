@@ -227,14 +227,14 @@ pub extern "C" fn {func_name_c}({c_args}) -> {ret_type} {{
 					if let Some(segment) = p.path.segments.first() {
 						if segment.ident == "str" {
 							rust_wrapper.push_str(&format!(
-                            "    let {arg_name} = unsafe {{ std::ffi::CStr::from_ptr({arg_name}).to_str().unwrap() }};\n",
+                            "    let {arg_name} = unsafe {{ core::ffi::CStr::from_ptr({arg_name}).to_str().unwrap() }};\n",
                             arg_name = arg_name,
                         ));
 						}
 					}
 				} else {
 					rust_wrapper.push_str(&format!(
-                        "    let {arg_name} = unsafe {{ std::mem::transmute::<{extern_c_ty}, _>({arg_name}) }};\n",
+                        "    let {arg_name} = unsafe {{ core::mem::transmute::<{extern_c_ty}, _>({arg_name}) }};\n",
                         arg_name = arg_name,
                         extern_c_ty = arg.extern_c_ty,
                     ));
@@ -243,13 +243,13 @@ pub extern "C" fn {func_name_c}({c_args}) -> {ret_type} {{
 			Type::Path(p) => match p.path.segments.first() {
 				Some(segment) if segment.ident == "String" => {
 					rust_wrapper.push_str(&format!(
-                        "    let {arg_name} = unsafe {{ std::ffi::CStr::from_ptr({arg_name}).to_string_lossy().into_owned() }};\n",
+                        "    let {arg_name} = unsafe {{ core::ffi::CStr::from_ptr({arg_name}).to_string_lossy().into_owned() }};\n",
                         arg_name = arg_name,
                     ));
 				}
 				_ => {
 					rust_wrapper.push_str(&format!(
-                        "    let {arg_name} = unsafe {{ std::mem::transmute::<{extern_c_ty}, _>({arg_name}) }};\n",
+                        "    let {arg_name} = unsafe {{ core::mem::transmute::<{extern_c_ty}, _>({arg_name}) }};\n",
                         arg_name = arg_name,
                         extern_c_ty = arg.extern_c_ty,
                     ));
@@ -257,7 +257,7 @@ pub extern "C" fn {func_name_c}({c_args}) -> {ret_type} {{
 			},
 			_ => {
 				rust_wrapper.push_str(&format!(
-                    "    let {arg_name} = unsafe {{ std::mem::transmute::<{extern_c_ty}, _>({arg_name}) }};\n",
+                    "    let {arg_name} = unsafe {{ core::mem::transmute::<{extern_c_ty}, _>({arg_name}) }};\n",
                     arg_name = arg_name,
                     extern_c_ty = arg.extern_c_ty,
                 ));
