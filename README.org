@@ -1,1 +1,9 @@
-#+title: CBT
+#+title: CCursed
+
+A C API generator for Rust crates. Extremely experimental.
+
+* Usage
+  #+begin_src shell
+    cargo install --git https://github.com/theoparis/ccursed
+    ccursed --crate-name my-crate --output-dir /path/to/output --input-file /path/to/input.rs
+  #+end_src
